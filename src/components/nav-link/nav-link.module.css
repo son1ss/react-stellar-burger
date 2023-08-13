@@ -1,0 +1,16 @@
+.link {
+  text-decoration: inherit;
+  display: flex;
+  gap: calc(var(--offset-base-size)  * 2);
+  align-items: center;
+  border-radius: 40px;
+  border: 1px dashed;
+}
+
+.primary {
+
+}
+
+.inactive {
+
+}

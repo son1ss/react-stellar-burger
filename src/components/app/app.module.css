@@ -1,7 +1,9 @@
 .app {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
+  flex-direction: row;
+  gap: calc(var(--offset-base-size)  * 10);
+  height: calc(100vh - 90px);
+  max-width: calc(var(--offset-base-size)  * 160);
   background-color: #131316;
   color: #f2f2f3;
 }
