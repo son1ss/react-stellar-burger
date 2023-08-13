@@ -1,0 +1,19 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  width: 272px;
+  gap: var(--offset-base-size);
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}
+
+.name {
+  text-align: center;
+}

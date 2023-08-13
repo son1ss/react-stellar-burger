@@ -1,0 +1,34 @@
+.price {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 4);
+  min-height: 0;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 4);
+  min-height: 0;
+  overflow-y: scroll;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}
+
+.confirmation {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: calc(var(--offset-base-size) * 10);
+  padding-bottom: calc(var(--offset-base-size) * 13);
+}
