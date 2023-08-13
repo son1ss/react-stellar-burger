@@ -1,6 +1,7 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import styles from './burger-contructor.module.css'
+import { burgerConstructorPropTypes } from "../../utils/prop-types";
 
 
 export default function BurgerConstructor({top, bottom, middle}) {
@@ -28,3 +29,5 @@ export default function BurgerConstructor({top, bottom, middle}) {
     </section>
   )
 }
+
+BurgerConstructor.propTypes = burgerConstructorPropTypes

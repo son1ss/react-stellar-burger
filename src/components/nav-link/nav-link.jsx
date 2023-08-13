@@ -1,3 +1,4 @@
+import { navLinkPropType } from '../../utils/prop-types'
 import styles from './nav-link.module.css'
 
 export default function NavLink({ children, type = 'primary', href }) {
@@ -7,3 +8,5 @@ export default function NavLink({ children, type = 'primary', href }) {
     </a>
   )
 }
+
+NavLink.propTypes = navLinkPropType
