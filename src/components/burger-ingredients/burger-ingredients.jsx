@@ -15,7 +15,7 @@ export default function BurgerIngredients({ ingredients }) {
   return (
     <section className="pt-10 main-block">
       <h1 className="text text_type_main-large pb-5">Соберите бургер</h1>
-      <div style={{display: 'flex'}}>
+      <div className={styles.categories}>
         {categories.map(item => {
           const id = Object.keys(item)[0]
           const name = item[id]
