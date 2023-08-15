@@ -1,11 +1,15 @@
 import PropTypes from "prop-types";
 
-export const ingredientPropType = {
+const ingredientPropType = {
   name: PropTypes.string.isRequired,
-  amount: PropTypes.number,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
 };
+
+export const ingredientComponentPropType = {
+  ingredient: PropTypes.shape(ingredientPropType).isRequired,
+  amount: PropTypes.number.isRequired,
+}
 
 export const burgerConstructorPropTypes = {
   top: PropTypes.shape(ingredientPropType).isRequired,
@@ -18,7 +22,9 @@ export const burgerConstructorPropTypes = {
   ).isRequired,
 };
 
-export const burgerIngredients = {}
+export const burgerIngredients = {
+  ingredients: PropTypes.arrayOf(ingredientComponentPropType)
+}
 
 export const navLinkPropType = {
   children: PropTypes.node.isRequired,
