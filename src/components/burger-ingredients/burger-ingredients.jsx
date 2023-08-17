@@ -2,6 +2,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, Fragment } from "react";
 import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
+import { burgerIngredientsPropTypes } from "../../utils/prop-types";
 
 export default function BurgerIngredients({ ingredients, viewInfo }) {
   const categories = [
@@ -45,3 +46,5 @@ export default function BurgerIngredients({ ingredients, viewInfo }) {
     </section>
   )
 }
+
+BurgerIngredients.propTypes = burgerIngredientsPropTypes

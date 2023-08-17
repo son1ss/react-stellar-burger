@@ -3,8 +3,20 @@ import styles from './modal.module.css'
 import ModalOverlay from '../modal-overlay/modal-overlay'
 import { createPortal } from 'react-dom'
 import { modalPropTypes } from '../../utils/prop-types'
+import { useEffect } from 'react'
 
 export default function Modal({ title, children, opened, toggle }) {
+
+  const handleEsc = event => {
+    console.log(event)
+    if (event.key === "Escape") toggle()
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEsc, true)
+    return () => {document.removeEventListener('keydown', handleEsc, true)}
+  }, [])
+
   return createPortal(
     <ModalOverlay opened={opened} toggle={toggle}>
       <div className={`pt-10 pl-10 pr-10 ${styles.card}`} onClick={event => event.stopPropagation()}>

@@ -41,14 +41,15 @@ function App() {
         />
       </>}
     </main>
-    {modalIngredient && 
+    {modalIngredient && isOpenIngredient &&
     <Modal title="Детали ингредиента" toggle={toggleOpenIngredient} opened={isOpenIngredient} >
       <IngredientDetails ingredient={modalIngredient}/>
     </Modal>}
 
+    {isOpenOrder &&
     <Modal toggle={toggleOpenOrder} opened={isOpenOrder}>
       <OrderDetails />
-    </Modal>
+    </Modal>}
     </>
   );
 }
