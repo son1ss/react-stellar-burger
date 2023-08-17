@@ -6,11 +6,11 @@ export default class Api {
   }
 
   #parseData(data) {
-    return data.json()
+    return data.ok ? data.json() : data.json().then(err => Promise.reject(err))
   }
 
   getIngredients() {
-    return fetch(`${this.#url}/ingredients`).then(this.#parseData)
+    return fetch(`${this.#url}/ingredients`).then(this.#parseData).catch(err => console.log(err))
   }
 }
 
