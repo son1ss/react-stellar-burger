@@ -27,7 +27,7 @@ export const burgerConstructorPropTypes = {
   middle: PropTypes.arrayOf(ingredientPropType).isRequired,
 }
 
-export const burgerIngredients = {
+export const burgerIngredientsPropTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 }
 
