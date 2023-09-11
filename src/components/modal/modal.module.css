@@ -1,0 +1,28 @@
+.card {
+  border-radius: 40px;
+  box-sizing: border-box;
+  min-width: calc(var(--offset-base-size)  * 160);
+  border: 1px solid var(--colors-interface-accent);
+  background-color: var(--background);
+  height: fit-content;
+  cursor: default;
+}
+
+.head {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(var(--offset-base-size)  * 16);
+}
+
+.close {
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+
+.close:hover {
+  opacity: 0.7;
+}

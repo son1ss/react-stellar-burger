@@ -6,6 +6,7 @@
   position: relative;
   width: 272px;
   gap: var(--offset-base-size);
+  cursor: pointer;
 }
 
 .price {

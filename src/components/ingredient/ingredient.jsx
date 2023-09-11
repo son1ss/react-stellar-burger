@@ -1,10 +1,12 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ingredient.module.css'
-import { ingredientPropType } from '../../utils/prop-types'
+import { ingredientComponentPropTypes } from '../../utils/prop-types'
 
-export default function Ingredient({ name, amount, price, image }) {
+export default function Ingredient({ ingredient, amount, viewInfo }) {
+  const { name, price, image } = ingredient;
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={() => viewInfo(ingredient)}>
       {amount && <Counter count={amount} />}
       <img src={image} alt={name} className="pl-4 pr-4" />
       <p className={`text text_type_digits-default ${styles.price}`}>{price} <CurrencyIcon /></p>
@@ -13,4 +15,4 @@ export default function Ingredient({ name, amount, price, image }) {
   )
 }
 
-Ingredient.propTypes = ingredientPropType
+Ingredient.propTypes = ingredientComponentPropTypes

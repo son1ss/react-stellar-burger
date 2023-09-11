@@ -4,7 +4,7 @@ import styles from './burger-contructor.module.css'
 import { burgerConstructorPropTypes } from "../../utils/prop-types";
 
 
-export default function BurgerConstructor({top, bottom, middle}) {
+export default function BurgerConstructor({top, bottom, middle, order}) {
   const [price, setPrice] = useState(0)
 
 
@@ -24,7 +24,7 @@ export default function BurgerConstructor({top, bottom, middle}) {
       </div>
       <div className={`pt-10 ${styles.confirmation}`}>
         <p className={`text text_type_main-medium ${styles.price}`}>{price} <CurrencyIcon /></p>
-        <Button htmlType="button" type="primary" size="large">Оформить заказ</Button>
+        <Button onClick={order} htmlType="button" type="primary" size="large">Оформить заказ</Button>
       </div>
     </section>
   )

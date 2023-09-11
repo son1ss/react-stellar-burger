@@ -2,8 +2,9 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, Fragment } from "react";
 import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
+import { burgerIngredientsPropTypes } from "../../utils/prop-types";
 
-export default function BurgerIngredients({ ingredients }) {
+export default function BurgerIngredients({ ingredients, viewInfo }) {
   const categories = [
     {bun: 'Булки'},
     {sauce: 'Соусы'},
@@ -30,7 +31,12 @@ export default function BurgerIngredients({ ingredients }) {
               <h2 className="text text_type_main-large">{category[categoryName]}</h2>
               <div className={`pt-6 pb-10 pl-4 pr-1 ${styles.ingredients}`}>
                 {ingredients.filter(ingredient => ingredient.type === categoryName).map(ingredient => (
-                  <Ingredient key={ingredient._id} image={ingredient.image} price={ingredient.price} name ={ingredient.name} amount={1} />
+                  <Ingredient 
+                    key={ingredient._id} 
+                    ingredient={ingredient} 
+                    amount={1} 
+                    viewInfo={viewInfo} 
+                  />
                 ))}
               </div>
             </Fragment>
@@ -40,3 +46,5 @@ export default function BurgerIngredients({ ingredients }) {
     </section>
   )
 }
+
+BurgerIngredients.propTypes = burgerIngredientsPropTypes
