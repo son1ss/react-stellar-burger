@@ -1,0 +1,13 @@
+.ingredientsPanel {
+  overflow-y: scroll;
+}
+
+.ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--offset-base-size)  * 8) calc(var(--offset-base-size)  * 6);
+}
+
+.categories {
+  display: flex;
+}

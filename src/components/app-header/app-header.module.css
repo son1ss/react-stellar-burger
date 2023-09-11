@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background);
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1280px;
+  width: 100%;
+}
+
+.nav {
+  display: flex;
+  gap: calc(var(--offset-base-size)  * 2);
+}
+
+.logo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: min-content;
+}
