@@ -1,10 +1,12 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useContext } from "react";
 import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
 import { burgerIngredientsPropTypes } from "../../utils/prop-types";
+import { IngredientsContext } from "../../services/ingredients-context";
 
-export default function BurgerIngredients({ ingredients, viewInfo }) {
+export default function BurgerIngredients({ viewInfo }) {
+  const { ingredients } = useContext(IngredientsContext)
   const categories = [
     {bun: 'Булки'},
     {sauce: 'Соусы'},

@@ -21,14 +21,8 @@ export const ingredientComponentPropTypes = {
   viewInfo: PropTypes.func.isRequired
 }
 
-export const burgerConstructorPropTypes = {
-  top: ingredientPropType.isRequired,
-  bottom: ingredientPropType.isRequired,
-  middle: PropTypes.arrayOf(ingredientPropType).isRequired,
-}
-
 export const burgerIngredientsPropTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
+  viewInfo: PropTypes.func.isRequired
 }
 
 export const navLinkPropType = {
