@@ -17,7 +17,7 @@ export default function BurgerConstructor() {
   const bun = ingredients.find(ingredient => ingredient._id === currentBurger.bun)
   const fillings = currentBurger.fillings.map(filling => ingredients.find(ingredient => ingredient._id === filling))
 
-  const order = async () => {
+  const order = () => {
     api.createOrder([currentBurger.bun, ...currentBurger.fillings, currentBurger.bun]).then(data => {
       setOrderNumber(data.order.number);
       toggleOpenOrder();
