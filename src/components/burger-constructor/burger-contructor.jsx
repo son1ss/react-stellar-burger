@@ -22,7 +22,7 @@ export default function BurgerConstructor() {
       else addIngredient(item)
     }
   })
-
+  
   const [isOpenOrder, toggleOpenOrder] = useModal()
   const { bun, fillings } = useSelector(state => state.currentBurger);
 
@@ -32,7 +32,7 @@ export default function BurgerConstructor() {
         {!!Object.keys(bun).length && <ConstructorElement type="top" extraClass="ml-8" price={bun.price} thumbnail={bun.image} text={`${bun.name} (верх)`} isLocked />}
         <div className={`custom-scroll pr-2 ${styles.middle}`}>
           {fillings.map((ingredient, index) => (
-            <ConstructorItem key={ingredient._id + index} ingredient={ingredient} index={index} />
+            <ConstructorItem key={ingredient.uid} ingredient={ingredient} index={index} />
           ))}
         </div>
         {!!Object.keys(bun).length && <ConstructorElement type="bottom" extraClass="ml-8" price={bun.price} thumbnail={bun.image} text={`${bun.name} (низ)`} isLocked />}

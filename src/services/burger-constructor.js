@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { v4 as uuid4 } from 'uuid'
 
 const initialState = {
   bun: {},
@@ -10,10 +11,13 @@ export const currentBurgerSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: (state, action) => {
-      state.fillings.push(action.payload)
+      state.fillings.push({...action.payload, uid: uuid4()})
     },
     removeIngredient: (state, action) => {
       state.fillings = state.fillings.filter((item, index) => index !== action.payload)
+    },
+    clearIngredients: (state) => {
+      state = initialState
     },
     moveIngredient: (state, action) => {
       const ingredient = state.fillings.splice(action.payload.from, 1)[0]
