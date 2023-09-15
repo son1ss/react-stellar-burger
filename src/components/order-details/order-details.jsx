@@ -1,9 +1,21 @@
+import { useSelector } from 'react-redux'
+import { useCreateOrderQuery } from '../../services/api'
 import styles from './order-details.module.css'
 
-export default function OrderDetails({ number }) {
+export default function OrderDetails() {
+  const { bun, fillings } = useSelector(state => state.currentBurger)
+  const ingredientsList = [
+    bun._id,
+    ...fillings.map(filling => filling._id),
+    bun._id
+  ]
+  const { data: burger, isError, isFetching } = useCreateOrderQuery(ingredientsList, { refetchOnMountOrArgChange: true })
+
+  if (isError) return <div className={styles.details}>Ошибка</div>
+
   return (
     <div className={styles.details}>
-      <p className={`text text_type_digits-large pt-4 pb-8 ${styles.id}`}>{ number }</p>
+      <p className={`text text_type_digits-large pt-4 pb-8 ${styles.id}`}>{isFetching ? '...' : burger.order.number}</p>
       <p className="text text_type_main-medium pb-15">идентификатор заказа</p>
       <div className={`pb-15 ${styles.confirm}`}>
         <img src="/react-stellar-burger/images/confirm-1.svg" alt="подтверждеие-1" className={styles.decoration} />

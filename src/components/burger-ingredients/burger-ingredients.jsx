@@ -1,19 +1,53 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, Fragment, useContext } from "react";
+import { useState, Fragment, useRef } from "react";
+import { useModal } from "../../hooks/use-modal";
+import { useGetIngredientsQuery } from "../../services/api";
 import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
-import { burgerIngredientsPropTypes } from "../../utils/prop-types";
-import { IngredientsContext } from "../../services/ingredients-context";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
-export default function BurgerIngredients({ viewInfo }) {
-  const { ingredients } = useContext(IngredientsContext)
+export default function BurgerIngredients() {
+  const { data: ingredients, isFetching } = useGetIngredientsQuery()
   const categories = [
     {bun: 'Булки'},
     {sauce: 'Соусы'},
     {main: 'Начинки'}
   ];
 
+  const scrollContainer = useRef()
+
   const [currentTab, setCurrentTab] = useState(Object.keys(categories[0])[0]);
+  const setTab = (tab) => {
+    setCurrentTab(tab);
+    const element = document.getElementById(tab);
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  };
+  const [isOpenIngredient, toggleOpenIngredient] = useModal()
+
+  const handleScroll = () => {
+    const scrollPosition = scrollContainer.current.scrollTop
+    const tabElements = categories.map((category) => document.getElementById(Object.keys(category)[0]))
+    
+    let closestTab = null
+    let closestDistance = Infinity
+    
+    tabElements.forEach((element) => {
+      if (element) {
+        const distance = Math.abs(element.getBoundingClientRect().top - scrollPosition)
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestTab = element.id;
+        }
+      }
+    })
+    
+    if (closestTab) {
+      setCurrentTab(closestTab);
+    }
+  };
+
+  if (isFetching) return 'Загрузка'
 
   return (
     <section className="pt-10 main-block">
@@ -22,31 +56,33 @@ export default function BurgerIngredients({ viewInfo }) {
         {categories.map(item => {
           const id = Object.keys(item)[0]
           const name = item[id]
-          return <Tab value={id} key={id} active={currentTab === id} onClick={setCurrentTab}>{name}</Tab>
+          return <Tab value={id} key={id} active={currentTab === id} onClick={setTab}>{name}</Tab>
         })}
       </div>
-      <div className={`custom-scroll pt-10 ${styles.ingredientsPanel}`}>
+      <div onScroll={handleScroll} ref={scrollContainer} className={`custom-scroll pt-10 ${styles.ingredientsPanel}`}>
         {categories.map(category => {
           const categoryName = Object.keys(category)[0] 
           return (
             <Fragment key={categoryName}>
-              <h2 className="text text_type_main-large">{category[categoryName]}</h2>
+              <h2 className="text text_type_main-large" id={categoryName}>{category[categoryName]}</h2>
               <div className={`pt-6 pb-10 pl-4 pr-1 ${styles.ingredients}`}>
                 {ingredients.filter(ingredient => ingredient.type === categoryName).map(ingredient => (
                   <Ingredient 
-                    key={ingredient._id} 
-                    ingredient={ingredient} 
-                    amount={1} 
-                    viewInfo={viewInfo} 
+                    key={ingredient._id}
+                    ingredient={ingredient}
+                    openModal={toggleOpenIngredient}
                   />
                 ))}
               </div>
             </Fragment>
           )
         })}
+        
+        {isOpenIngredient &&
+        <Modal title="Детали ингредиента" toggle={toggleOpenIngredient} opened={isOpenIngredient} >
+          <IngredientDetails />
+        </Modal>}
       </div>
     </section>
   )
 }
-
-BurgerIngredients.propTypes = burgerIngredientsPropTypes
