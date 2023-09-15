@@ -9,8 +9,8 @@ function App() {
     <>
       <AppHeader />
       <main className={styles.app}>
-      <BurgerIngredients />
-      <BurgerConstructor />
+        <BurgerIngredients />
+        <BurgerConstructor />
       </main>
     </>
   );
