@@ -1,7 +1,9 @@
-import { ingredientDetailsPropTypes } from '../../utils/prop-types'
+import { useSelector } from 'react-redux'
 import styles from './ingredient-details.module.css'
 
-export default function IngredientDetails({ ingredient }) {
+export default function IngredientDetails() {
+  const { ingredient } = useSelector(state => state.modal)
+
   return (
     <div className={styles.ingredient}>
       <img src={ingredient.image_large} alt={ingredient.name} className="pb-4 pl-5 pr-5" />
@@ -27,5 +29,3 @@ export default function IngredientDetails({ ingredient }) {
     </div>
   )
 }
-
-IngredientDetails.propTypes = ingredientDetailsPropTypes

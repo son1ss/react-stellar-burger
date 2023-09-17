@@ -8,7 +8,6 @@ import { useEffect } from 'react'
 export default function Modal({ title, children, opened, toggle }) {
 
   const handleEsc = event => {
-    console.log(event)
     if (event.key === "Escape") toggle()
   }
 

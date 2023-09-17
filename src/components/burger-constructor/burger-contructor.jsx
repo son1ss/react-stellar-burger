@@ -1,33 +1,50 @@
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import styles from './burger-contructor.module.css'
-import { burgerConstructorPropTypes } from "../../utils/prop-types";
+import { Button, ConstructorElement, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import { useModal } from "../../hooks/use-modal";
+import { useActions } from "../../hooks/use-actions";
+import styles from './burger-contructor.module.css';
+import OrderDetails from "../order-details/order-details";
+import Modal from "../modal/modal";
+import ConstructorItem from "../constructor-item/constructor-item";
 
+const getPrice = (bun, fillings) => {
+  const price = [bun.price, ...fillings, bun].reduce((prev, current) => prev + current.price)
+  return !isNaN(price) ? price : 0
+}
 
-export default function BurgerConstructor({top, bottom, middle, order}) {
-  const [price, setPrice] = useState(0)
-
+export default function BurgerConstructor() {
+  const { addIngredient, setBun } = useActions()
+  const [, drop] = useDrop({
+    accept: 'ingredient',
+    drop: (item) => {
+      if (item.type === 'bun') setBun(item)
+      else addIngredient(item)
+    }
+  })
+  
+  const [isOpenOrder, toggleOpenOrder] = useModal()
+  const { bun, fillings } = useSelector(state => state.currentBurger);
 
   return (
     <section className="pt-25 pl-4 pr-4 main-block">
-      <div className={styles.ingredients}>
-        <ConstructorElement type="top" extraClass="ml-8" price={top.price} thumbnail={top.image} text={`${top.name} (верх)`} isLocked />
+      <div ref={drop} className={styles.ingredients}>
+        {!!Object.keys(bun).length && <ConstructorElement type="top" extraClass="ml-8" price={bun.price} thumbnail={bun.image} text={`${bun.name} (верх)`} isLocked />}
         <div className={`custom-scroll pr-2 ${styles.middle}`}>
-          {middle.map(ingredient => (
-            <div key={ingredient._id} className={styles.item}>
-              <DragIcon />
-              <ConstructorElement price={ingredient.price} thumbnail={ingredient.image} text={ingredient.name} />
-            </div>
+          {fillings.map((ingredient, index) => (
+            <ConstructorItem key={ingredient.uid} ingredient={ingredient} index={index} />
           ))}
         </div>
-        <ConstructorElement type="bottom" extraClass="ml-8" price={bottom.price} thumbnail={bottom.image} text={`${bottom.name} (низ)`} isLocked />
+        {!!Object.keys(bun).length && <ConstructorElement type="bottom" extraClass="ml-8" price={bun.price} thumbnail={bun.image} text={`${bun.name} (низ)`} isLocked />}
       </div>
       <div className={`pt-10 ${styles.confirmation}`}>
-        <p className={`text text_type_main-medium ${styles.price}`}>{price} <CurrencyIcon /></p>
-        <Button onClick={order} htmlType="button" type="primary" size="large">Оформить заказ</Button>
+        <p className={`text text_type_main-medium ${styles.price}`}>{getPrice(bun, fillings)}<CurrencyIcon /></p>
+        <Button onClick={toggleOpenOrder} htmlType="button" type="primary" size="large">Оформить заказ</Button>
       </div>
+      {isOpenOrder &&
+      <Modal toggle={toggleOpenOrder} opened={isOpenOrder}>
+        <OrderDetails />
+      </Modal>}
     </section>
   )
 }
-
-BurgerConstructor.propTypes = burgerConstructorPropTypes
