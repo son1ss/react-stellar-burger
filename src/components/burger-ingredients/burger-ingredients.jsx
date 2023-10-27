@@ -24,6 +24,10 @@ export default function BurgerIngredients() {
     if (element) element.scrollIntoView({ behavior: "smooth" });
   };
   const [isOpenIngredient, toggleOpenIngredient] = useModal()
+  const toggleDetails = () => {
+    isOpenIngredient && window.history.replaceState('', '', '/react-stellar-burger')
+    toggleOpenIngredient()
+  }
 
   const handleScroll = () => {
     const scrollPosition = scrollContainer.current.scrollTop
@@ -70,7 +74,7 @@ export default function BurgerIngredients() {
                   <Ingredient 
                     key={ingredient._id}
                     ingredient={ingredient}
-                    openModal={toggleOpenIngredient}
+                    openModal={toggleDetails}
                   />
                 ))}
               </div>
@@ -79,7 +83,7 @@ export default function BurgerIngredients() {
         })}
         
         {isOpenIngredient &&
-        <Modal title="Детали ингредиента" toggle={toggleOpenIngredient} opened={isOpenIngredient} >
+        <Modal title="Детали ингредиента" toggle={toggleDetails} opened={isOpenIngredient} >
           <IngredientDetails />
         </Modal>}
       </div>

@@ -24,7 +24,7 @@ export const ingredientComponentPropTypes = {
 export const navLinkPropType = {
   children: PropTypes.node.isRequired,
   type: PropTypes.oneOf(['primary', 'inactive']),
-  href: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
 }
 
 export const modalOverlayPropTypes = {

@@ -2,10 +2,12 @@ import { useDispatch } from "react-redux"
 import { bindActionCreators } from "redux"
 import { currentBurgerActions } from "../services/burger-constructor"
 import { modalActions } from "../services/modal"
+import { userActions } from "../services/user"
 
 const allActions = {
   ...currentBurgerActions,
-  ...modalActions
+  ...modalActions,
+  ...userActions
 }
 
 export const useActions = () => {

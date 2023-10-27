@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 
 export default function Ingredient({ ingredient, openModal }) {
-  const { name, price, image } = ingredient;
+  const { name, price, image, _id } = ingredient;
   const { setModalIngredient } = useActions()
   const { bun, fillings } = useSelector(state => state.currentBurger)
   const [, drag] = useDrag({
@@ -19,6 +19,7 @@ export default function Ingredient({ ingredient, openModal }) {
   const clickHandle = () => {
     openModal()
     setModalIngredient(ingredient)
+    window.history.replaceState('', '', `/react-stellar-burger/ingredients/${_id}`);
   }
 
   return (

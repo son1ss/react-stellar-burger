@@ -1,0 +1,28 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--offset-base-size) * 20);
+  height: calc(100vh - calc(var(--offset-base-size)  * 22));
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--offset-base-size) * 6);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--offset-base-size) * 4);
+}
+
+.links a {
+  text-decoration: none;
+}
