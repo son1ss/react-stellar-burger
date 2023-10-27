@@ -43,3 +43,7 @@ export const modalPropTypes = {
 export const ingredientDetailsPropTypes = {
   ingredient: ingredientPropType
 }
+
+export const protectedRoutePropType = {
+  children: PropTypes.node.isRequired
+}

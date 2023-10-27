@@ -15,6 +15,7 @@ import Register from "./pages/account-management/register";
 import ForgotPassword from "./pages/account-management/forgot-password";
 import ResetPassword from "./pages/account-management/reset-password";
 import IngredientPage from "./pages/ingredient-page";
+import ProtectedRoute from "./components/protected-route/protected-route";
 
 
 ReactDOM.render(
@@ -24,7 +25,7 @@ ReactDOM.render(
         <BrowserRouter>
           <AppHeader />
           <Route exact path="/react-stellar-burger/"><App /></Route>
-          <Route path="/react-stellar-burger/profile"><Profile /></Route>
+          <Route path="/react-stellar-burger/profile"><ProtectedRoute><Profile /></ProtectedRoute></Route>
           <Route path="/react-stellar-burger/login"><Login /></Route>
           <Route path="/react-stellar-burger/register"><Register /></Route>
           <Route path="/react-stellar-burger/forgot-password"><ForgotPassword /></Route>

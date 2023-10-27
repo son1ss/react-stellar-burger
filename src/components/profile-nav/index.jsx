@@ -11,6 +11,7 @@ export default function ProfileNav() {
 
   const logout = async () => {
     await logoutUser()
+    // localStorage.removeItem('refreshToken')
     push('/react-stellar-burger/login')
   }
 

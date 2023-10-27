@@ -13,7 +13,6 @@ export default function ResetPassword() {
   const submitHandler = async (e) => {
     e.preventDefault()
     const resetData = Object.fromEntries(new FormData(e.target))
-    console.log(resetData)
     const result = await resetPassword(resetData)
 
     if (result.data) result.data.success && push('/react-stellar-burger/login')
