@@ -14,7 +14,7 @@ export default function AppHeader() {
           <NavLink to="/react-stellar-burger" type={pathname === '/react-stellar-burger' ? 'primary' : 'inactive' }>
             <BurgerIcon type={pathname === '/react-stellar-burger' ? 'primary' : 'secondary' } />Конструктор
           </NavLink>
-          <NavLink to="/react-stellar-burger" type="inactive">
+          <NavLink to="/react-stellar-burger/feed" type="inactive">
             <ListIcon type="secondary" />Лента заказов
           </NavLink>
         </nav>

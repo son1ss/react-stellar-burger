@@ -16,6 +16,7 @@ import ForgotPassword from "./pages/account-management/forgot-password";
 import ResetPassword from "./pages/account-management/reset-password";
 import IngredientPage from "./pages/ingredient-page";
 import ProtectedRoute from "./components/protected-route/protected-route";
+import Orders from "./pages/orders";
 
 
 ReactDOM.render(
@@ -31,6 +32,7 @@ ReactDOM.render(
           <Route path="/react-stellar-burger/forgot-password"><ForgotPassword /></Route>
           <Route path="/react-stellar-burger/reset-password"><ResetPassword /></Route>
           <Route path="/react-stellar-burger/ingredients/:id"><IngredientPage /></Route>
+          <Route path="/react-stellar-burger/feed/"><Orders /></Route>
         </BrowserRouter>
       </DndProvider>
     </Provider>

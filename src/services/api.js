@@ -45,7 +45,7 @@ export const api = createApi({
     createOrder: builder.query({
       query: ingredients => ({
         url: 'orders',
-        body: JSON.stringify({ ingredients }),
+        body: { ingredients },
         method: 'POST'
       })
     }),
@@ -107,6 +107,41 @@ export const api = createApi({
         method: 'POST',
         body: resetData
       })
+    }),
+    getOrders: builder.query({
+      query: (accessToken) => ({
+        url: 'orders/all',
+        params: { token: accessToken }
+      }),
+      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }) {
+        // create a websocket connection when the cache subscription starts
+        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders/all?token=${getState().user.accessToken}`)
+        try {
+          // wait for the initial query to resolve before proceeding
+          await cacheDataLoaded
+
+          // when data is received from the socket connection to the server,
+          // if it is a message and for the appropriate channel,
+          // update our query result with the received message
+          const listener = (event) => {
+            const data = JSON.parse(event.data)
+            console.log(data)
+
+            updateCachedData((draft) => {
+              draft = data
+            })
+          }
+
+          ws.addEventListener('message', listener)
+        } catch {
+          // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
+          // in which case `cacheDataLoaded` will throw
+        }
+        // cacheEntryRemoved will resolve when the cache subscription is no longer active
+        await cacheEntryRemoved
+        // perform cleanup steps once the `cacheEntryRemoved` promise resolves
+        ws.close()
+      }
     })
   })
 })
@@ -120,5 +155,6 @@ export const {
   useGetUserQuery,
   useEditUserMutation,
   useForgotPasswordMutation,
-  useResetPasswordMutation
+  useResetPasswordMutation,
+  useGetOrdersQuery
 } = api
