@@ -12,7 +12,7 @@ export default function ProfileNav() {
   const logout = async () => {
     await logoutUser()
     // localStorage.removeItem('refreshToken')
-    push('/react-stellar-burger/login')
+    push('/login')
   }
 
   return (
@@ -20,13 +20,13 @@ export default function ProfileNav() {
       <div className={styles.nav}>
         <Link 
           className={`text text_type_main-medium text_color_${pathname.endsWith('profile') ? 'primary': 'inactive'}`} 
-          to="/react-stellar-burger/profile"
+          to="/profile"
         >
           Профиль
         </Link>
         <Link 
           className={`text text_type_main-medium text_color_${pathname.includes('/orders') ? 'primary': 'inactive'}`} 
-          to="/react-stellar-burger/profile/orders"
+          to="/profile/orders"
         >
           История заказов
         </Link>

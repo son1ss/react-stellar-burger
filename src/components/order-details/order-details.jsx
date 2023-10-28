@@ -15,7 +15,7 @@ export default function OrderDetails() {
 
   return (
     <div className={styles.details}>
-      <p className={`text text_type_digits-large pt-4 pb-8 ${styles.id}`}>{isFetching ? '...' : burger.order.number}</p>
+      <p className={`text text_type_digits-large pt-4 pb-8 ${styles.id}`}>{isFetching || !burger ? '...' : burger.order.number}</p>
       <p className="text text_type_main-medium pb-15">идентификатор заказа</p>
       <div className={`pb-15 ${styles.confirm}`}>
         <img src="/react-stellar-burger/images/confirm-1.svg" alt="подтверждеие-1" className={styles.decoration} />

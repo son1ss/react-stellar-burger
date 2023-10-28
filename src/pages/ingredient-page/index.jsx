@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styles from './ingredient-page.module.css'
 import { useEffect } from 'react'
 import IngredientDetails from '../../components/ingredient-details/ingredient-details'
@@ -7,12 +7,11 @@ import { useGetIngredientsQuery } from '../../services/api'
 
 export default function IngredientPage() {
 
-  const { pathname } = useLocation()
+  const { id } = useParams()
   const { setModalIngredient } = useActions()
   const { data } = useGetIngredientsQuery()
 
   useEffect(() => {
-    const id = pathname.split('/').at(-1)
     const ingredient = data?.find(ingredient => ingredient._id === id) || {}
     setModalIngredient(ingredient)
   }, [data])

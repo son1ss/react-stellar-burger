@@ -7,6 +7,8 @@ import styles from './burger-contructor.module.css';
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import ConstructorItem from "../constructor-item/constructor-item";
+import { useGetUserQuery } from "../../services/api";
+import { useHistory } from "react-router-dom";
 
 const getPrice = (bun, fillings) => {
   const price = [bun.price, ...fillings, bun].reduce((prev, current) => prev + current.price)
@@ -14,6 +16,8 @@ const getPrice = (bun, fillings) => {
 }
 
 export default function BurgerConstructor() {
+  const { push } = useHistory()
+  const { refetch } = useGetUserQuery()
   const { addIngredient, setBun } = useActions()
   const [, drop] = useDrop({
     accept: 'ingredient',
@@ -24,6 +28,11 @@ export default function BurgerConstructor() {
   })
   
   const [isOpenOrder, toggleOpenOrder] = useModal()
+  const createOrder = async () => {
+    await refetch()
+    if (localStorage.getItem('refreshToken')) toggleOpenOrder()
+    else push('/login')
+  }
   const { bun, fillings } = useSelector(state => state.currentBurger);
 
   return (
@@ -39,10 +48,10 @@ export default function BurgerConstructor() {
       </div>
       <div className={`pt-10 ${styles.confirmation}`}>
         <p className={`text text_type_main-medium ${styles.price}`}>{getPrice(bun, fillings)}<CurrencyIcon /></p>
-        <Button onClick={toggleOpenOrder} htmlType="button" type="primary" size="large">Оформить заказ</Button>
+        <Button onClick={createOrder} htmlType="button" type="primary" size="large">Оформить заказ</Button>
       </div>
       {isOpenOrder &&
-      <Modal toggle={toggleOpenOrder} opened={isOpenOrder}>
+      <Modal toggle={toggleOpenOrder}>
         <OrderDetails />
       </Modal>}
     </section>

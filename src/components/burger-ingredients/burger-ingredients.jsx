@@ -25,7 +25,7 @@ export default function BurgerIngredients() {
   };
   const [isOpenIngredient, toggleOpenIngredient] = useModal()
   const toggleDetails = () => {
-    isOpenIngredient && window.history.replaceState('', '', '/react-stellar-burger')
+    isOpenIngredient && window.history.replaceState('', '', '')
     toggleOpenIngredient()
   }
 
@@ -83,7 +83,7 @@ export default function BurgerIngredients() {
         })}
         
         {isOpenIngredient &&
-        <Modal title="Детали ингредиента" toggle={toggleDetails} opened={isOpenIngredient} >
+        <Modal title="Детали ингредиента" toggle={toggleDetails} >
           <IngredientDetails />
         </Modal>}
       </div>
