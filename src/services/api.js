@@ -34,6 +34,21 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   return result
 }
 
+const validateOrder = (order) => {
+  const { ingredients } = order
+  if (ingredients.length < 1) return false
+  if (ingredients.includes(null)) return false
+  return true
+}
+
+const groupIngredients = (ingredients) => {
+  const output = {}
+  ingredients.forEach(ingredient => {
+    output[ingredient] ? output[ingredient]++ : output[ingredient] = 1
+  })
+  return output
+}
+
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
@@ -109,37 +124,83 @@ export const api = createApi({
       })
     }),
     getOrders: builder.query({
-      query: (accessToken) => ({
-        url: 'orders/all',
-        params: { token: accessToken }
+      query: () => ({
+        url: 'orders/all'
       }),
-      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }) {
-        // create a websocket connection when the cache subscription starts
-        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders/all?token=${getState().user.accessToken}`)
+      transformResponse: data => ({
+        ...data,
+        orders: data.orders.filter(validateOrder).map(order => ({
+          ...order,
+          ingredients: groupIngredients(order.ingredients)
+        }))
+      }),
+      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders/all`)
         try {
-          // wait for the initial query to resolve before proceeding
           await cacheDataLoaded
 
-          // when data is received from the socket connection to the server,
-          // if it is a message and for the appropriate channel,
-          // update our query result with the received message
           const listener = (event) => {
             const data = JSON.parse(event.data)
             console.log(data)
 
             updateCachedData((draft) => {
-              draft = data
+              const patch = {
+                ...data,
+                orders: data.orders.filter(validateOrder).map(order => ({
+                  ...order,
+                  ingredients: groupIngredients(order.ingredients)
+                }))
+              }
+              Object.assign(draft, patch)
             })
           }
 
           ws.addEventListener('message', listener)
         } catch {
-          // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
-          // in which case `cacheDataLoaded` will throw
+
         }
-        // cacheEntryRemoved will resolve when the cache subscription is no longer active
         await cacheEntryRemoved
-        // perform cleanup steps once the `cacheEntryRemoved` promise resolves
+        ws.close()
+      }
+    }),
+    getUserOrders: builder.query({
+      queryFn: (arg, { getState }, extra, baseQuery) => baseQuery({
+        url: 'orders',
+        params: { token: getState().user.accessToken }
+      }),
+      transformResponse: data => ({
+        ...data,
+        orders: data.orders.filter(validateOrder).map(order => ({
+          ...order,
+          ingredients: groupIngredients(order.ingredients)
+        }))
+      }),
+      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }) {
+        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders?token=${getState().user.accessToken}`)
+        try {
+          await cacheDataLoaded
+
+          const listener = (event) => {
+            const data = JSON.parse(event.data)
+            console.log(data)
+
+            updateCachedData((draft) => {
+              const patch = {
+                ...data,
+                orders: data.orders.filter(validateOrder).map(order => ({
+                  ...order,
+                  ingredients: groupIngredients(order.ingredients)
+                }))
+              }
+              Object.assign(draft, patch)
+            })
+          }
+
+          ws.addEventListener('message', listener)
+        } catch {
+
+        }
+        await cacheEntryRemoved
         ws.close()
       }
     })

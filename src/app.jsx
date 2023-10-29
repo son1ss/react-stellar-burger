@@ -10,6 +10,7 @@ import IngredientPage from "./pages/ingredient-page";
 import ProtectedRoute from "./components/protected-route/protected-route";
 import Modal from "./components/modal/modal";
 import IngredientDetails from "./components/ingredient-details/ingredient-details";
+import Orders from "./pages/orders";
 
 export default function App() {
 
@@ -22,17 +23,21 @@ export default function App() {
     <>
       <AppHeader />
       <Switch location={background || location}>
-        <Route exact path="/"><Main /></Route>
+        <Route path="/" exact><Main /></Route>
         <Route path="/profile"><ProtectedRoute><Profile /></ProtectedRoute></Route>
         <Route path="/login"><Login /></Route>
         <Route path="/register"><Register /></Route>
         <Route path="/forgot-password"><ForgotPassword /></Route>
         <Route path="/reset-password"><ResetPassword /></Route>
         <Route path="/ingredients/:id"><IngredientPage /></Route>
+        <Route path="/feed" exact><Orders /></Route>
+        <Route path="/feed/:id"></Route>
       </Switch>
-      {background && <Route path="/ingredients/:id"><Modal toggle={goBack} title="Детали ингредиента">
+      {background && <Route path="/ingredients/:id">
+        <Modal toggle={goBack} title="Детали ингредиента">
           <IngredientDetails />
-        </Modal></Route>}
+        </Modal>
+      </Route>}
     </>
   )
 }
