@@ -25,7 +25,7 @@ export default function Login() {
     if (credentials?.user) {
       setUser(credentials.accessToken)
       localStorage.setItem('refreshToken', credentials.refreshToken)
-      history.push(location.state.from || '/')
+      history.push(location.state?.from || '/')
     }
   }
 
