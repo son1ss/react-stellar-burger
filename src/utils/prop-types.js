@@ -29,14 +29,12 @@ export const navLinkPropType = {
 
 export const modalOverlayPropTypes = {
   children: PropTypes.node.isRequired,
-  opened: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 }
 
 export const modalPropTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
-  opened: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 };
 
