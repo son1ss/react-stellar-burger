@@ -33,11 +33,11 @@ export default function Feed() {
               </ul>
             </div>
           </div>
-          <div>
+          <div className={styles.total}>
             <h3 className="text text_color_primary text_type_main-medium">Выполнено за все время:</h3>
             <p className="text text_color_primary text_type_digits-large">{data.total}</p>
           </div>
-          <div>
+          <div className={styles.total}>
             <h3 className="text text_color_primary text_type_main-medium">Выполнено за сегодня:</h3>
             <p className="text text_color_primary text_type_digits-large">{data.totalToday}</p>
           </div>
