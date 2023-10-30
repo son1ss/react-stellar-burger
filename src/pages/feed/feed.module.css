@@ -1,0 +1,44 @@
+.main {
+  max-width: calc(var(--offset-base-size)  * 310);
+  height: calc(100vh - calc(var(--offset-base-size) * 22));
+  background-color: #131316;
+  color: #f2f2f3;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.inner {
+  height: calc(100vh - calc(var(--offset-base-size) * 22) - 100px);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: calc(var(--offset-base-size) * 15);
+}
+
+.orders {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 4);
+  overflow-y: scroll;
+  width: 608px;
+}
+
+.dash {
+  display: flex;
+  gap: calc(var(--offset-base-size)  * 9);
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 15);
+}
+
+.list {
+  width: calc(var(--offset-base-size) * 70);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 2);
+}

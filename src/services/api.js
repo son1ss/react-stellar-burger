@@ -57,7 +57,7 @@ export const api = createApi({
       query: () => ({ url: '/ingredients' }),
       transformResponse: data => data.data
     }),
-    createOrder: builder.query({
+    createOrder: builder.mutation({
       query: ingredients => ({
         url: 'orders',
         body: { ingredients },
@@ -141,7 +141,6 @@ export const api = createApi({
 
           const listener = (event) => {
             const data = JSON.parse(event.data)
-            console.log(data)
 
             updateCachedData((draft) => {
               const patch = {
@@ -166,7 +165,7 @@ export const api = createApi({
     getUserOrders: builder.query({
       queryFn: (arg, { getState }, extra, baseQuery) => baseQuery({
         url: 'orders',
-        params: { token: getState().user.accessToken }
+        params: { token: getState().user.accessToken.replace('Bearer ', '') }
       }),
       transformResponse: data => ({
         ...data,
@@ -176,13 +175,12 @@ export const api = createApi({
         }))
       }),
       async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }) {
-        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders?token=${getState().user.accessToken}`)
+        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders?token=${getState().user.accessToken.replace('Bearer ', '')}`)
         try {
           await cacheDataLoaded
 
           const listener = (event) => {
             const data = JSON.parse(event.data)
-            console.log(data)
 
             updateCachedData((draft) => {
               const patch = {
@@ -209,7 +207,7 @@ export const api = createApi({
 
 export const {
   useGetIngredientsQuery,
-  useCreateOrderQuery,
+  useCreateOrderMutation,
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
@@ -217,5 +215,6 @@ export const {
   useEditUserMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
-  useGetOrdersQuery
+  useGetOrdersQuery,
+  useGetUserOrdersQuery,
 } = api

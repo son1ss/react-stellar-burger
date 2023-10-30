@@ -1,0 +1,24 @@
+.main {
+  height: calc(100vh - calc(var(--offset-base-size) * 22));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner {
+  padding-top: calc(var(--offset-base-size) * 10);
+  display: flex;
+  width: 100%;
+  max-width: calc(var(--offset-base-size)  * 310);
+  gap: calc(var(--offset-base-size)  * 15);
+  overflow: hidden;
+}
+
+.orders {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 4);
+  overflow-y: scroll;
+  width: 844px;
+}

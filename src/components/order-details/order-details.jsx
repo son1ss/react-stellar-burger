@@ -1,15 +1,23 @@
 import { useSelector } from 'react-redux'
-import { useCreateOrderQuery } from '../../services/api'
+import { useCreateOrderMutation } from '../../services/api'
 import styles from './order-details.module.css'
+import { useEffect } from 'react'
+import { useActions } from '../../hooks/use-actions'
 
 export default function OrderDetails() {
   const { bun, fillings } = useSelector(state => state.currentBurger)
+  const { clearIngredients } = useActions()
   const ingredientsList = [
     bun._id,
     ...fillings.map(filling => filling._id),
     bun._id
   ]
-  const { data: burger, isError, isFetching } = useCreateOrderQuery(ingredientsList, { refetchOnMountOrArgChange: true })
+  const [order, { data: burger, isError, isFetching }] = useCreateOrderMutation()
+
+  useEffect(() => {
+    order(ingredientsList)
+    clearIngredients()
+  }, [])
 
   if (isError) return <div className={styles.details}>Ошибка</div>
 
