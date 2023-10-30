@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import { modalPropTypes } from '../../utils/prop-types'
 import { useEffect } from 'react'
 
-export default function Modal({ title, children, opened, toggle }) {
+export default function Modal({ title, children, toggle }) {
 
   const handleEsc = event => {
     if (event.key === "Escape") toggle()
@@ -17,7 +17,7 @@ export default function Modal({ title, children, opened, toggle }) {
   }, [])
 
   return createPortal(
-    <ModalOverlay opened={opened} toggle={toggle}>
+    <ModalOverlay toggle={toggle}>
       <div className={`pt-10 pl-10 pr-10 ${styles.card}`} onClick={event => event.stopPropagation()}>
         <div className={styles.head}>
           <button className={styles.close}>
@@ -28,7 +28,7 @@ export default function Modal({ title, children, opened, toggle }) {
         {children}
       </div>
     </ModalOverlay>
-  , document.querySelector('#modal'))
+  , document.body)
 }
 
 Modal.propTypes = modalPropTypes

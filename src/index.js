@@ -1,19 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./services/index";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { BrowserRouter } from "react-router-dom"
+import App from "./app";
 
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <DndProvider backend={HTML5Backend}>
-        <App />
+        <BrowserRouter basename="/react-stellar-burger">
+          <App />
+        </BrowserRouter>
       </DndProvider>
     </Provider>
   </React.StrictMode>,

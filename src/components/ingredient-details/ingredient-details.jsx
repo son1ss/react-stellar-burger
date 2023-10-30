@@ -1,8 +1,17 @@
 import { useSelector } from 'react-redux'
 import styles from './ingredient-details.module.css'
+import { useParams } from 'react-router-dom'
+import { useGetIngredientsQuery } from '../../services/api'
 
 export default function IngredientDetails() {
-  const { ingredient } = useSelector(state => state.modal)
+
+  const { data, isFetching } = useGetIngredientsQuery()
+
+  const { id } = useParams()
+
+  if (!data || isFetching) return 'Loading...'
+
+  const ingredient = data.find(ingredient => ingredient._id === id)
 
   return (
     <div className={styles.ingredient}>

@@ -24,22 +24,24 @@ export const ingredientComponentPropTypes = {
 export const navLinkPropType = {
   children: PropTypes.node.isRequired,
   type: PropTypes.oneOf(['primary', 'inactive']),
-  href: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
 }
 
 export const modalOverlayPropTypes = {
   children: PropTypes.node.isRequired,
-  opened: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 }
 
 export const modalPropTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
-  opened: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 };
 
 export const ingredientDetailsPropTypes = {
   ingredient: ingredientPropType
+}
+
+export const protectedRoutePropType = {
+  children: PropTypes.node.isRequired
 }
