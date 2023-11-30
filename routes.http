@@ -1,0 +1,2 @@
+GET https://norma.nomoreparties.space/api/orders/all
+Content-Type: application/json
