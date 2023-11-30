@@ -34,6 +34,21 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   return result
 }
 
+const validateOrder = (order) => {
+  const { ingredients } = order
+  if (ingredients.length < 1) return false
+  if (ingredients.includes(null)) return false
+  return true
+}
+
+const groupIngredients = (ingredients) => {
+  const output = {}
+  ingredients.forEach(ingredient => {
+    output[ingredient] ? output[ingredient]++ : output[ingredient] = 1
+  })
+  return output
+}
+
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
@@ -42,10 +57,10 @@ export const api = createApi({
       query: () => ({ url: '/ingredients' }),
       transformResponse: data => data.data
     }),
-    createOrder: builder.query({
+    createOrder: builder.mutation({
       query: ingredients => ({
         url: 'orders',
-        body: JSON.stringify({ ingredients }),
+        body: { ingredients },
         method: 'POST'
       })
     }),
@@ -107,18 +122,99 @@ export const api = createApi({
         method: 'POST',
         body: resetData
       })
+    }),
+    getOrders: builder.query({
+      query: () => ({
+        url: 'orders/all'
+      }),
+      transformResponse: data => ({
+        ...data,
+        orders: data.orders.filter(validateOrder).map(order => ({
+          ...order,
+          ingredients: groupIngredients(order.ingredients)
+        }))
+      }),
+      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders/all`)
+        try {
+          await cacheDataLoaded
+
+          const listener = (event) => {
+            const data = JSON.parse(event.data)
+
+            updateCachedData((draft) => {
+              const patch = {
+                ...data,
+                orders: data.orders.filter(validateOrder).map(order => ({
+                  ...order,
+                  ingredients: groupIngredients(order.ingredients)
+                }))
+              }
+              Object.assign(draft, patch)
+            })
+          }
+
+          ws.addEventListener('message', listener)
+        } catch {
+
+        }
+        await cacheEntryRemoved
+        ws.close()
+      }
+    }),
+    getUserOrders: builder.query({
+      queryFn: (arg, { getState }, extra, baseQuery) => baseQuery({
+        url: 'orders',
+        params: { token: getState().user.accessToken.replace('Bearer ', '') }
+      }),
+      transformResponse: data => ({
+        ...data,
+        orders: data.orders.filter(validateOrder).map(order => ({
+          ...order,
+          ingredients: groupIngredients(order.ingredients)
+        }))
+      }),
+      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }) {
+        const ws = new WebSocket(`wss://norma.nomoreparties.space/orders?token=${getState().user.accessToken.replace('Bearer ', '')}`)
+        try {
+          await cacheDataLoaded
+
+          const listener = (event) => {
+            const data = JSON.parse(event.data)
+
+            updateCachedData((draft) => {
+              const patch = {
+                ...data,
+                orders: data.orders.filter(validateOrder).map(order => ({
+                  ...order,
+                  ingredients: groupIngredients(order.ingredients)
+                }))
+              }
+              Object.assign(draft, patch)
+            })
+          }
+
+          ws.addEventListener('message', listener)
+        } catch {
+
+        }
+        await cacheEntryRemoved
+        ws.close()
+      }
     })
   })
 })
 
 export const {
   useGetIngredientsQuery,
-  useCreateOrderQuery,
+  useCreateOrderMutation,
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
   useGetUserQuery,
   useEditUserMutation,
   useForgotPasswordMutation,
-  useResetPasswordMutation
+  useResetPasswordMutation,
+  useGetOrdersQuery,
+  useGetUserOrdersQuery,
 } = api

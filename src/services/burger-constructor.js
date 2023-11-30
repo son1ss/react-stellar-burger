@@ -17,7 +17,7 @@ export const currentBurgerSlice = createSlice({
       state.fillings = state.fillings.filter((item, index) => index !== action.payload)
     },
     clearIngredients: (state) => {
-      state = initialState
+      state.fillings = []
     },
     moveIngredient: (state, action) => {
       const ingredient = state.fillings.splice(action.payload.from, 1)[0]

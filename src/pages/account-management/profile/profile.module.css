@@ -3,6 +3,7 @@
   width: 100%;
   max-width: calc(var(--offset-base-size)  * 310);
   gap: calc(var(--offset-base-size)  * 15);
+  padding-top: calc(var(--offset-base-size)  * 30);
 }
 
 .edit {
@@ -16,5 +17,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+}
+
+.buttons {
+  text-align: end;
 }

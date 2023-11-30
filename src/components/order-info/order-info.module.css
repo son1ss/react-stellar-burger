@@ -1,0 +1,47 @@
+.ingredient {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ingredient div {
+  display: flex;
+  gap: calc(var(--offset-base-size) * 4);
+}
+
+.ingredient > div > span {
+  max-width: calc(var(--offset-base-size) * 90);
+}
+
+.ingredient span {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info span {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}
+
+.order {
+  max-width: 640px;
+  max-height: 640px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.order > h4 {
+  text-align: center;
+}
+
+.order ul {
+  overflow-y: scroll;
+  max-height: 312px;
+}
