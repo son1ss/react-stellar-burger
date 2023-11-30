@@ -10,6 +10,8 @@ type Props = {
   toggle: () => void;
 };
 
+const modalElement = document.querySelector('#modal')
+
 export default function Modal({ title, children, toggle }: Props) {
 
   const handleEsc = (event: KeyboardEvent) => {
@@ -20,6 +22,8 @@ export default function Modal({ title, children, toggle }: Props) {
     document.addEventListener('keydown', handleEsc, true)
     return () => {document.removeEventListener('keydown', handleEsc, true)}
   }, [])
+
+  if (!modalElement) return <></>
 
   return createPortal(
     <ModalOverlay toggle={toggle}>
@@ -33,5 +37,5 @@ export default function Modal({ title, children, toggle }: Props) {
         {children}
       </div>
     </ModalOverlay>
-  , document.body)
+  , modalElement)
 }

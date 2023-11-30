@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux"
 import { bindActionCreators } from "redux"
+import { useTypedDispatch } from "../services"
 import { currentBurgerActions } from "../services/burger-constructor"
 import { userActions } from "../services/user"
 
@@ -9,7 +9,7 @@ const allActions = {
 }
 
 export const useActions = () => {
-  const dispatch = useDispatch()
+  const dispatch = useTypedDispatch()
 
   return bindActionCreators(allActions, dispatch)
 }
