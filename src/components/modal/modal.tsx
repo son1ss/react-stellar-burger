@@ -10,7 +10,7 @@ type Props = {
   toggle: () => void;
 };
 
-const modalElement = document.querySelector('#modal')
+const modalElement = document.querySelector('#modals')
 
 export default function Modal({ title, children, toggle }: Props) {
 
